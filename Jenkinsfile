@@ -43,7 +43,7 @@ pipeline{
             steps{
                 sh 'kubectl apply -f web-deployment.yml'
                 sh 'kubectl get deployments'
-                sh 'kubectl describe deployment web-deployment'
+                sh 'kubectl describe deployment webapp-deployment'
                 sh 'kubectl apply -f webapp-service.yml'
                 sh 'kubectl get services'
             }
