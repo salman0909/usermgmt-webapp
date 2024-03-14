@@ -1,19 +1,17 @@
 pipeline{
-    
     agent any
     environment {
         dockerhubCredentials = 'dockerhub-credentials'
-        dockerImageTag = "salman1091/springboot-crud:latest"
+        dockerImageTag = "salman1091/user-webapp:v1"
     }
     tools{
         maven "maven_3_9_4"
     }
     stages{
-        stage('Build Maven'){
+        stage('Packaging Application into Jar with Maven'){
             steps{
                 script{
-
-                    checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[credentialsId: 'git-credentials', url: 'https://github.com/salman0909/springboot-crud.git']])
+                    checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[credentialsId: 'git-credentials', url: 'https://github.com/salman0909/usermgmt-webapp.git']])
                     sh 'mvn clean install'
                 }
             }
@@ -21,7 +19,7 @@ pipeline{
         stage('Building Docker Image'){
             steps{
                 script{
-                    sh 'docker build -t salman1091/springboot-crud .'
+                    sh 'docker build -t $dockerImageTag .'
                 }
             }
         } 
@@ -37,17 +35,16 @@ pipeline{
         stage('Running the Container'){
             steps{
                 script{
-                    sh 'docker run -d -p 8081:8081 --name sb-crud $dockerImageTag'
+                    sh 'docker run -d -p 8081:8081 --name user-webapp $dockerImageTag'
                 }
             }
         }
         stage('Deploying the image into k8s'){
             steps{
-                sh 'kubectl apply -f sb-app-deployment.yml'
-                sh 'kubectl describe deployment sb-app-deployment'
+                sh 'kubectl apply -f webapp-deployment.yml'
                 sh 'kubectl get deployments'
-                sh 'kubectl apply -f sb-app-service.yml'
-                sh 'kubectl describe service sb-app-service'
+                sh 'kubectl describe deployment webapp-deployment'
+                sh 'kubectl apply -f webapp-service.yml'
                 sh 'kubectl get services'
             }
         }           
