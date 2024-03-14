@@ -1,7 +1,7 @@
 pipeline{
     agent any
     environment {
-        dockerhubCredentials = 'dockerhub-credentials'
+        dockerhubCredentials = 'dockerhub'
         dockerImageTag = "salman1091/user-webapp:v1"
     }
     tools{
@@ -27,7 +27,7 @@ pipeline{
             steps{
                 script{
                     docker.withRegistry('', dockerhubCredentials) {
-                        sh "docker push $dockerImageTag"
+                        sh 'docker push $dockerImageTag'
                     }
                 }
             }
@@ -39,7 +39,7 @@ pipeline{
                 }
             }
         }
-        stage('Deploying the image into k8s'){
+        stage('Deploying the webapp into k8s'){
             steps{
                 sh 'kubectl apply -f webapp-deployment.yml'
                 sh 'kubectl get deployments'
