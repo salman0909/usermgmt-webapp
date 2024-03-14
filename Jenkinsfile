@@ -11,7 +11,7 @@ pipeline{
         stage('Packaging Application into Jar with Maven'){
             steps{
                 script{
-                    checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[credentialsId: 'git-credentials', url: 'https://github.com/salman0909/usermgmt-webapp.git']])
+                    checkout scmGit(branches: [[name: 'main']], extensions: [], userRemoteConfigs: [[credentialsId: 'git-credentials', url: 'https://github.com/salman0909/usermgmt-webapp.git']])
                     sh 'mvn clean install'
                 }
             }
