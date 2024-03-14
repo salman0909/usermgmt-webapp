@@ -16,4 +16,4 @@ spec:
         - name: user-webapp
           image: salman1091/user-webapp:v1 
           ports:
-          - containerPort: 8081
+          - containerPort: 8080
