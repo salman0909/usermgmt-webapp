@@ -35,7 +35,7 @@ pipeline{
         stage('Running the Container'){
             steps{
                 script{
-                    sh 'docker run -d -p 8080:8080 --name user-webapp $dockerImageTag'
+                    sh 'docker run -d -p 8082:8082 --name user-webapp $dockerImageTag'
                 }
             }
         }
