@@ -41,9 +41,9 @@ pipeline{
         }
         stage('Deploying the webapp into k8s'){
             steps{
-                sh 'kubectl apply -f webapp-deployment.yml'
+                sh 'kubectl apply -f web-deployment.yml'
                 sh 'kubectl get deployments'
-                sh 'kubectl describe deployment webapp-deployment'
+                sh 'kubectl describe deployment web-deployment'
                 sh 'kubectl apply -f webapp-service.yml'
                 sh 'kubectl get services'
             }
